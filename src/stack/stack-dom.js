@@ -34,30 +34,32 @@ const renderListStack = () => {
 renderListStack();
 
 const generateWarningStack = type => {
-  if (type === 'underflow') {
+  if (type === 'Underflow') {
     warningBottomStack.style.display = 'block';
     warningBottomStack.innerText = type;
-  } else if (type === 'overflow') {
+  } else if (type === 'Overflow') {
     warningTopStack.style.display = 'block';
     warningTopStack.innerText = type;
   }
 };
 
 const addToStack = () => {
-  if (newStack.push(stackInput.value) === 'Stack Overflow') {
-    generateWarningStack('overflow');
-  } else {
+  try {
+    newStack.push(stackInput.value);
     clearStackInput();
     renderListStack();
+  } catch {
+    generateWarningStack('Overflow')
   }
 };
 
 const removeFromStack = () => {
-  if (newStack.pop() === 'Stack Underflow') {
-    generateWarningStack('underflow');
-  } else {
-    renderListStack();
-  }
+ try {
+  newStack.pop();
+  renderListStack();
+ } catch (error) {
+  generateWarningStack ('Underflow');
+ }
 };
 
 addStackBtn.addEventListener('click', addToStack);
